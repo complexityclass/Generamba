@@ -16,6 +16,12 @@ module Generamba
 
       rambafile = YAML.load_file(RAMBAFILE_NAME)
 
+      templatesList = rambafile[TEMPLATES_KEY]
+      if templatesList.nil?
+        error_description = 'You must specify at least one template in Rambafile under the key *project_templates*'
+        raise StandardError.new(error_description)
+      end
+
       # Mapping hashes to model objects
       templates = rambafile[TEMPLATES_KEY].map { |template_hash|
         template_declaration = Generamba::TemplateDeclaration.new(template_hash)
